@@ -10,11 +10,11 @@ SOURCE_RELEASE_BRANCH=${_SOURCE_RELEASE_BRANCH:=master-next}
 DEBIAN_SOURCE=debian.master
 
 TARGET_RELEASE=bionic
-TARGET_RELEASE_BRANCH=hwe-edge
+TARGET_RELEASE_BRANCH=hwe
 TARGET_RELEASE_NUMBER=18.04
 DEBIAN_TARGET=debian.${TARGET_RELEASE_BRANCH}
 
-DEF_REPO=git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/${SOURCE_RELEASE}
+DEF_REPO=https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/${SOURCE_RELEASE}
 RELEASE_REPO=${_DEF_REPO:=${DEF_REPO}}
 DEF_ARCHES="i386 amd64 armhf arm64 ppc64el s390x"
 FOREIGN_ARCHES=
