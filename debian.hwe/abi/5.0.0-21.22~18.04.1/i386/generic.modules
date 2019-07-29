@@ -456,6 +456,7 @@ avma1_cs
 avmfritz
 ax25
 ax88179_178a
+ax88796b
 axnet_cs
 axp20x
 axp20x-i2c
@@ -3830,6 +3831,8 @@ rtsx_pci_sdmmc
 rtsx_usb
 rtsx_usb_ms
 rtsx_usb_sdmmc
+rtw88
+rtwpci
 rx51_battery
 rxrpc
 s1d13xxxfb
