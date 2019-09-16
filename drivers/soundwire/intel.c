@@ -759,7 +759,7 @@ static int intel_register_dai(struct sdw_intel *sdw)
 	stream = &cdns->pcm;
 
 	ret = intel_create_dai(cdns, dais, INTEL_PDI_IN,
-			stream->num_in, off, stream->num_ch_in, true);
+			cdns->pcm.num_in, off, stream->num_ch_in, true);
 	if (ret)
 		return ret;
 
@@ -777,7 +777,7 @@ static int intel_register_dai(struct sdw_intel *sdw)
 
 	/* Create PDM DAIs */
 	stream = &cdns->pdm;
-	off += cdns->pcm.num_bd;
+	off += cdns->pdm.num_out;
 	ret = intel_create_dai(cdns, dais, INTEL_PDI_IN,
 			cdns->pdm.num_in, off, stream->num_ch_in, false);
 	if (ret)
