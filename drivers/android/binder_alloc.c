@@ -29,6 +29,7 @@
 #include <linux/list_lru.h>
 #include <linux/ratelimit.h>
 #include <asm/cacheflush.h>
+#include <linux/sizes.h>
 #include "binder_alloc.h"
 #include "binder_trace.h"
 
@@ -725,7 +726,9 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 		}
 	}
 #endif
-	alloc->pages = kcalloc((vma->vm_end - vma->vm_start) / PAGE_SIZE,
+	alloc->buffer_size = min_t(unsigned long, vma->vm_end - vma->vm_start,
+				   SZ_4M);
+	alloc->pages = kcalloc(alloc->buffer_size / PAGE_SIZE,
 			       sizeof(alloc->pages[0]),
 			       GFP_KERNEL);
 	if (alloc->pages == NULL) {
@@ -733,7 +736,6 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 		failure_string = "alloc page array";
 		goto err_alloc_pages_failed;
 	}
-	alloc->buffer_size = vma->vm_end - vma->vm_start;
 
 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
 	if (!buffer) {
