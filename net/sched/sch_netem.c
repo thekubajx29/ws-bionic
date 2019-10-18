@@ -615,6 +615,8 @@ finish_segs:
 		sch->q.qlen += nb;
 		if (nb > 1)
 			qdisc_tree_reduce_backlog(sch, 1 - nb, prev_len - len);
+	} else if (!skb) {
+		return NET_XMIT_DROP;
 	}
 	return NET_XMIT_SUCCESS;
 }
