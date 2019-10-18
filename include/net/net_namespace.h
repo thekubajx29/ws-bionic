@@ -50,6 +50,9 @@ struct bpf_prog;
 #define NETDEV_HASHENTRIES (1 << NETDEV_HASHBITS)
 
 struct net {
+	/* First cache line can be often dirtied.
+	 * Do not place here read-mostly fields.
+	 */
 	refcount_t		passive;	/* To decided when the network
 						 * namespace should be freed.
 						 */
@@ -58,7 +61,14 @@ struct net {
 						 */
 	spinlock_t		rules_mod_lock;
 
-	u32			hash_mix;
+	unsigned int		dev_unreg_count;
+
+	unsigned int		dev_base_seq;	/* protected by rtnl_mutex */
+	int			ifindex;
+
+	spinlock_t		nsid_lock;
+	atomic_t		fnhe_genid;
+
 	atomic64_t		cookie_gen;
 
 	struct list_head	list;		/* list of network namespaces */
@@ -72,11 +82,11 @@ struct net {
 
 	struct user_namespace   *user_ns;	/* Owning user namespace */
 	struct ucounts		*ucounts;
-	spinlock_t		nsid_lock;
 	struct idr		netns_ids;
 
 	struct ns_common	ns;
 
+	struct list_head 	dev_base_head;
 	struct proc_dir_entry 	*proc_net;
 	struct proc_dir_entry 	*proc_net_stat;
 
@@ -89,12 +99,14 @@ struct net {
 
 	struct uevent_sock	*uevent_sock;		/* uevent socket */
 
-	struct list_head 	dev_base_head;
 	struct hlist_head 	*dev_name_head;
 	struct hlist_head	*dev_index_head;
-	unsigned int		dev_base_seq;	/* protected by rtnl_mutex */
-	int			ifindex;
-	unsigned int		dev_unreg_count;
+	/* Note that @hash_mix can be read millions times per second,
+	 * it is critical that it is on a read_mostly cache line.
+	 */
+	u32			hash_mix;
+
+	struct net_device       *loopback_dev;          /* The loopback */
 
 	/* core fib_rules */
 	struct list_head	rules_ops;
@@ -102,7 +114,6 @@ struct net {
 	struct list_head	fib_notifier_ops;  /* Populated by
 						    * register_pernet_subsys()
 						    */
-	struct net_device       *loopback_dev;          /* The loopback */
 	struct netns_core	core;
 	struct netns_mib	mib;
 	struct netns_packet	packet;
@@ -163,7 +174,6 @@ struct net {
 	struct netns_can	can;
 #endif
 	struct sock		*diag_nlsk;
-	atomic_t		fnhe_genid;
 } __randomize_layout;
 
 #include <linux/seq_file_net.h>
