@@ -1541,6 +1541,19 @@ int fuse_do_setattr(struct dentry *dentry, struct iattr *attr,
 	if (!is_wb || is_truncate || !S_ISREG(inode->i_mode))
 		i_size_write(inode, outarg.attr.size);
 
+	/* Flush dirty data/metadata before non-truncate SETATTR */
+	if (is_wb && S_ISREG(inode->i_mode) &&
+	    attr->ia_valid &
+			(ATTR_MODE | ATTR_UID | ATTR_GID | ATTR_MTIME_SET |
+			 ATTR_TIMES_SET)) {
+		err = write_inode_now(inode, true);
+		if (err)
+			return err;
+
+		fuse_set_nowrite(inode);
+		fuse_release_nowrite(inode);
+	}
+
 	if (is_truncate) {
 		/* NOTE: this may release/reacquire fc->lock */
 		__fuse_release_nowrite(inode);
