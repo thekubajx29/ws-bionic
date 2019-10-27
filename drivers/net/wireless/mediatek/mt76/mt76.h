@@ -98,7 +98,8 @@ struct mt76_queue_entry {
 		struct mt76_txwi_cache *txwi;
 		struct mt76u_buf ubuf;
 	};
-	bool schedule;
+	bool skip_buf0:1;
+	bool schedule:1;
 };
 
 struct mt76_queue_regs {
