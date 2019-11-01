@@ -3732,6 +3732,9 @@ void intel_power_domains_init_hw(struct drm_i915_private *dev_priv, bool resume)
 
 	power_domains->initializing = true;
 
+	/* Must happen before power domain init on VLV/CHV */
+	intel_update_rawclk(dev_priv);
+
 	if (IS_ICELAKE(dev_priv)) {
 		icl_display_core_init(dev_priv, resume);
 	} else if (IS_CANNONLAKE(dev_priv)) {
