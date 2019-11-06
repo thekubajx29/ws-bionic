@@ -286,8 +286,6 @@ static int smc_pnet_fill_entry(struct net *net, struct smc_pnetentry *pnetelem,
 	return 0;
 
 error:
-	if (pnetelem->ndev)
-		dev_put(pnetelem->ndev);
 	return rc;
 }
 
