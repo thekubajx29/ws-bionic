@@ -1499,7 +1499,7 @@ static int ice_vc_get_stats_msg(struct ice_vf *vf, u8 *msg)
 	struct virtchnl_queue_select *vqs =
 		(struct virtchnl_queue_select *)msg;
 	enum ice_status aq_ret = 0;
-	struct ice_eth_stats stats;
+	struct ice_eth_stats stats = { 0 };
 	struct ice_vsi *vsi;
 
 	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
@@ -1518,7 +1518,6 @@ static int ice_vc_get_stats_msg(struct ice_vf *vf, u8 *msg)
 		goto error_param;
 	}
 
-	memset(&stats, 0, sizeof(struct ice_eth_stats));
 	ice_update_eth_stats(vsi);
 
 	stats = vsi->eth_stats;
