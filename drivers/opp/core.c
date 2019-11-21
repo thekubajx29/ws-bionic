@@ -48,14 +48,9 @@ static struct opp_device *_find_opp_dev(const struct device *dev,
 static struct opp_table *_find_opp_table_unlocked(struct device *dev)
 {
 	struct opp_table *opp_table;
-	bool found;
 
 	list_for_each_entry(opp_table, &opp_tables, node) {
-		mutex_lock(&opp_table->lock);
-		found = !!_find_opp_dev(dev, opp_table);
-		mutex_unlock(&opp_table->lock);
-
-		if (found) {
+		if (_find_opp_dev(dev, opp_table)) {
 			_get_opp_table_kref(opp_table);
 
 			return opp_table;
@@ -817,10 +812,7 @@ struct opp_device *_add_opp_dev(const struct device *dev,
 				struct opp_table *opp_table)
 {
 	struct opp_device *opp_dev;
-
-	mutex_lock(&opp_table->lock);
 	opp_dev = _add_opp_dev_unlocked(dev, opp_table);
-	mutex_unlock(&opp_table->lock);
 
 	return opp_dev;
 }
@@ -839,7 +831,6 @@ static struct opp_table *_allocate_opp_table(struct device *dev, int index)
 	if (!opp_table)
 		return NULL;
 
-	mutex_init(&opp_table->lock);
 	mutex_init(&opp_table->genpd_virt_dev_lock);
 	INIT_LIST_HEAD(&opp_table->dev_list);
 
@@ -865,6 +856,7 @@ static struct opp_table *_allocate_opp_table(struct device *dev, int index)
 
 	BLOCKING_INIT_NOTIFIER_HEAD(&opp_table->head);
 	INIT_LIST_HEAD(&opp_table->opp_list);
+	mutex_init(&opp_table->lock);
 	kref_init(&opp_table->kref);
 
 	/* Secure the device table modification */

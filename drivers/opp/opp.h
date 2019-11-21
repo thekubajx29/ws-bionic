@@ -129,7 +129,7 @@ enum opp_table_access {
  * @opp_list:	table of opps
  * @kref:	for reference count of the table.
  * @list_kref:	for reference count of the OPP list.
- * @lock:	mutex protecting the opp_list and dev_list.
+ * @lock:	mutex protecting the opp_list.
  * @np:		struct device_node pointer for opp's DT node.
  * @clock_latency_ns_max: Max clock latency in nanoseconds.
  * @parsed_static_opps: True if OPPs are initialized from DT.
