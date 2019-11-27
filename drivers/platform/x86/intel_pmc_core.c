@@ -145,6 +145,7 @@ static const struct pmc_reg_map spt_reg_map = {
 
 /* Cannonlake: PGD PFET Enable Ack Status Register(s) bitmap */
 static const struct pmc_bit_map cnp_pfear_map[] = {
+	/* Reserved for Cannon Lake but valid for Comet Lake */
 	{"PMC",                 BIT(0)},
 	{"OPI-DMI",             BIT(1)},
 	{"SPI/eSPI",            BIT(2)},
@@ -743,6 +744,8 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
 	ICPU(INTEL_FAM6_KABYLAKE_MOBILE, &spt_reg_map),
 	ICPU(INTEL_FAM6_KABYLAKE_DESKTOP, &spt_reg_map),
 	ICPU(INTEL_FAM6_CANNONLAKE_MOBILE, &cnp_reg_map),
+	ICPU(INTEL_FAM6_COMETLAKE, &cnp_reg_map),
+	ICPU(INTEL_FAM6_COMETLAKE_L, &cnp_reg_map),
 	{}
 };
 
