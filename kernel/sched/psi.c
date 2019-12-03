@@ -173,7 +173,8 @@ static void group_init(struct psi_group *group)
 
 	for_each_possible_cpu(cpu)
 		seqcount_init(&per_cpu_ptr(group->pcpu, cpu)->seq);
-	group->next_update = sched_clock() + psi_period;
+	group->last_update = sched_clock();
+	group->next_update = group->last_update + psi_period;
 	INIT_DELAYED_WORK(&group->clock_work, psi_update_work);
 	mutex_init(&group->stat_lock);
 }
