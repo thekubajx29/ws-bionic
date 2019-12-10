@@ -475,7 +475,7 @@ static int do_dump(int argc, char **argv)
 		return -1;
 	}
 
-	if (!*member_len) {
+	if (!*member_len || !*member_ptr) {
 		p_info("no instructions returned");
 		close(fd);
 		return 0;
