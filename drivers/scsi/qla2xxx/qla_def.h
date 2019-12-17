@@ -2355,6 +2355,7 @@ typedef struct fc_port {
 	unsigned int scan_needed:1;
 	unsigned int n2n_flag:1;
 	unsigned int explicit_logout:1;
+	unsigned int prli_pend_timer:1;
 
 	struct work_struct nvme_del_work;
 	struct completion nvme_del_done;
@@ -2380,6 +2381,7 @@ typedef struct fc_port {
 	struct work_struct free_work;
 	struct work_struct reg_work;
 	uint64_t jiffies_at_registration;
+	unsigned long prli_expired;
 	struct qlt_plogi_ack_t *plogi_link[QLT_PLOGI_LINK_MAX];
 
 	uint16_t tgt_id;
@@ -4669,6 +4671,9 @@ struct sff_8247_a0 {
 	((ha->prev_topology == ISP_CFG_N && !ha->current_topology) || \
 	 ha->current_topology == ISP_CFG_N || \
 	 !ha->current_topology)
+
+#define PRLI_PHASE(_cls) \
+	((_cls == DSC_LS_PRLI_PEND) || (_cls == DSC_LS_PRLI_COMP))
 
 #include "qla_target.h"
 #include "qla_gbl.h"
