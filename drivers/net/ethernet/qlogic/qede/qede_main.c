@@ -400,6 +400,7 @@ void qede_fill_by_demand_stats(struct qede_dev *edev)
 	p_common->brb_discards = stats.common.brb_discards;
 	p_common->tx_mac_ctrl_frames = stats.common.tx_mac_ctrl_frames;
 	p_common->link_change_count = stats.common.link_change_count;
+	p_common->ptp_skip_txts = edev->ptp_skip_txts;
 
 	if (QEDE_IS_BB(edev)) {
 		struct qede_stats_bb *p_bb = &edev->stats.bb;
@@ -2119,6 +2120,9 @@ static void qede_unload(struct qede_dev *edev, enum qede_unload_mode mode,
 out:
 	if (!is_locked)
 		__qede_unlock(edev);
+
+	edev->ptp_skip_txts = 0;
+
 	DP_INFO(edev, "Ending qede unload\n");
 }
 
