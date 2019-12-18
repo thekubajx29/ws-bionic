@@ -1435,6 +1435,7 @@ static void qeth_l3_stop_card(struct qeth_card *card, int recovery_mode)
 	}
 
 	flush_workqueue(card->event_wq);
+	card->info.promisc_mode = 0;
 }
 
 /*
