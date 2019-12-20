@@ -19,6 +19,8 @@
 #include <linux/regulator/driver.h>
 #include <linux/module.h>
 
+#include "internal.h"
+
 /**
  * regulator_is_enabled_regmap - standard is_enabled() for regmap users
  *
@@ -761,3 +763,15 @@ int regulator_set_active_discharge_regmap(struct regulator_dev *rdev,
 				  rdev->desc->active_discharge_mask, val);
 }
 EXPORT_SYMBOL_GPL(regulator_set_active_discharge_regmap);
+
+/**
+ * regulator_is_equal - test whether two regulators are the same
+ *
+ * @reg1: first regulator to operate on
+ * @reg2: second regulator to operate on
+ */
+bool regulator_is_equal(struct regulator *reg1, struct regulator *reg2)
+{
+	return reg1->rdev == reg2->rdev;
+}
+EXPORT_SYMBOL_GPL(regulator_is_equal);
