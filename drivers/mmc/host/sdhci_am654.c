@@ -158,6 +158,22 @@ static void sdhci_am654_set_power(struct sdhci_host *host, unsigned char mode,
 	sdhci_set_power_noreg(host, mode, vdd);
 }
 
+static int sdhci_am654_execute_tuning(struct mmc_host *mmc, u32 opcode)
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	int err = sdhci_execute_tuning(mmc, opcode);
+
+	if (err)
+		return err;
+	/*
+	 * Tuning data remains in the buffer after tuning.
+	 * Do a command and data reset to get rid of it
+	 */
+	sdhci_reset(host, SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+
+	return 0;
+}
+
 struct sdhci_ops sdhci_am654_ops = {
 	.get_max_clock = sdhci_pltfm_clk_get_max_clock,
 	.get_timeout_clock = sdhci_pltfm_clk_get_max_clock,
@@ -321,6 +337,8 @@ static int sdhci_am654_probe(struct platform_device *pdev)
 		dev_err(dev, "parsing dt failed (%d)\n", ret);
 		goto pm_runtime_put;
 	}
+
+	host->mmc_host_ops.execute_tuning = sdhci_am654_execute_tuning;
 
 	ret = sdhci_am654_init(host);
 	if (ret)
