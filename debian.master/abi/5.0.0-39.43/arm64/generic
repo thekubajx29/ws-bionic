@@ -14072,7 +14072,6 @@ EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_debugf
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_free
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_get_ata_protocol
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_get_fw_info
-EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_get_ncq_tag
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_get_prog_phy_linkrate_mask
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_host_reset
 EXPORT_SYMBOL_GPL drivers/scsi/hisi_sas/hisi_sas_main 0x00000000	hisi_sas_init_mem
