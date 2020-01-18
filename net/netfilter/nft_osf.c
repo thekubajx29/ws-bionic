@@ -57,6 +57,9 @@ static int nft_osf_init(const struct nft_ctx *ctx,
 		priv->ttl = ttl;
 	}
 
+	if (!tb[NFTA_OSF_DREG])
+		return -EINVAL;
+
 	priv->dreg = nft_parse_register(tb[NFTA_OSF_DREG]);
 	err = nft_validate_register_store(ctx, priv->dreg, NULL,
 					  NFT_DATA_VALUE, NFT_OSF_MAXGENRELEN);
