@@ -35,11 +35,20 @@ static inline void local_daif_mask(void)
 	trace_hardirqs_off();
 }
 
-static inline unsigned long local_daif_save(void)
+static inline unsigned long local_daif_save_flags(void)
 {
 	unsigned long flags;
 
 	flags = arch_local_save_flags();
+
+	return flags;
+}
+
+static inline unsigned long local_daif_save(void)
+{
+	unsigned long flags;
+
+	flags = local_daif_save_flags();
 
 	local_daif_mask();
 
