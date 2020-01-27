@@ -473,6 +473,9 @@ static inline struct sk_buff *udp_rcv_segment(struct sock *sk,
 {
 	struct sk_buff *segs;
 
+	if (skb->pkt_type == PACKET_LOOPBACK)
+		skb->ip_summed = CHECKSUM_PARTIAL;
+
 	/* the GSO CB lays after the UDP one, no need to save and restore any
 	 * CB fragment
 	 */
