@@ -6657,6 +6657,10 @@ static void vmx_vcpu_run(struct kvm_vcpu *vcpu)
 static struct kvm *vmx_vm_alloc(void)
 {
 	struct kvm_vmx *kvm_vmx = vzalloc(sizeof(struct kvm_vmx));
+
+	if (!kvm_vmx)
+		return NULL;
+
 	return &kvm_vmx->kvm;
 }
 
