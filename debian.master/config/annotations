@@ -10161,6 +10161,9 @@ CONFIG_CPA_DEBUG                                policy<{'amd64': 'n', 'i386': 'n
 CONFIG_DEBUG_ENTRY                              policy<{'amd64': 'n', 'i386': 'n'}>
 CONFIG_DEBUG_NMI_SELFTEST                       policy<{'amd64': 'n', 'i386': 'n'}>
 CONFIG_X86_DEBUG_FPU                            policy<{'amd64': 'y', 'i386': 'y'}>
+
+CONFIG_IOMMU_DEBUGFS                              mark<ENFORCED> note<Should not be enabled in production, LP #1861057>
+
 #
 CONFIG_X86_DECODER_SELFTEST                     flag<TESTING>
 CONFIG_X86_DEBUG_FPU                            flag<REVIEW>
