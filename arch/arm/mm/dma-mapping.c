@@ -235,7 +235,7 @@ static int __dma_supported(struct device *dev, u64 mask, bool warn)
 		return 0;
 	}
 
-	max_dma_pfn = min(max_pfn, arm_dma_pfn_limit);
+	max_dma_pfn = min(max_pfn - 1, arm_dma_pfn_limit);
 
 	/*
 	 * Translate the device's DMA mask to a PFN limit.  This
