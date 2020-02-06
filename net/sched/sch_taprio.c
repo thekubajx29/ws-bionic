@@ -691,7 +691,7 @@ static void taprio_destroy(struct Qdisc *sch)
 	}
 	q->qdiscs = NULL;
 
-	netdev_set_num_tc(dev, 0);
+	netdev_reset_tc(dev);
 
 	list_for_each_entry_safe(entry, n, &q->entries, list) {
 		list_del(&entry->list);
