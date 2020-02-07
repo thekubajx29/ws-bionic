@@ -1,4 +1,4 @@
-linux-hwe (5.0.0-37.40~18.04.1) bionic; urgency=medium
+linux-hwe-5.0 (5.0.0-37.40~18.04.1) bionic; urgency=medium
 
   * bionic/linux-hwe: 5.0.0-37.40~18.04.1 -proposed tracker (LP: #1852250)
 
