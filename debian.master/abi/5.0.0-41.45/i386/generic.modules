@@ -674,7 +674,6 @@ cdc_subset
 cdns-csi2rx
 cdns-csi2tx
 cdns-pltfrm
-cec-gpio
 ceph
 cfag12864b
 cfag12864bfb
@@ -3399,6 +3398,10 @@ pwm-vibra
 pwm_bl
 pxa27x_udc
 pxrc
+qat_c3xxx
+qat_c3xxxvf
+qat_c62x
+qat_c62xvf
 qat_dh895xcc
 qat_dh895xccvf
 qca8k
