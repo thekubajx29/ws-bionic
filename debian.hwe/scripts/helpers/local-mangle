@@ -12,3 +12,8 @@ sed -i /snapdragon/d ${DEBIAN}/etc/getabis
 sed -i '/_snapdragon/d' ${DEBIAN}/rules.d/arm64.mk
 sed -i 's/^\(flavo.*\)\ssnapdragon\(.*\)$/\1\2/' ${DEBIAN}/rules.d/arm64.mk
 rm -f ${DEBIAN}/config/arm64/config.flavour.snapdragon
+
+# Drop lowlatency and generic-lpae flavour
+sed -i 's/^\(flavo.*\)\slowlatency\(.*\)$/\1\2/' ${DEBIAN}/rules.d/amd64.mk
+sed -i 's/^\(flavo.*\)\slowlatency\(.*\)$/\1\2/' ${DEBIAN}/rules.d/i386.mk
+sed -i 's/^\(flavo.*\)\sgeneric-lpae\(.*\)$/\1\2/' ${DEBIAN}/rules.d/armhf.mk
