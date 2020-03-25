@@ -9758,7 +9758,6 @@ EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_shash_final
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_shash_finup
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_shash_setkey
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_shash_update
-EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_shoot_alg
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_spawn_tfm
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_spawn_tfm2
 EXPORT_SYMBOL_GPL vmlinux 0x00000000	crypto_stats_ablkcipher_decrypt
