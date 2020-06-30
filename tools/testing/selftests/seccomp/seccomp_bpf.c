@@ -1727,6 +1727,14 @@ void change_syscall(struct __test_metadata *_metadata,
 		TH_LOG("Can't modify syscall return on this architecture");
 #else
 		regs.SYSCALL_RET = result;
+# if defined(__powerpc__)
+		if (result < 0) {
+			regs.SYSCALL_RET = -result;
+			regs.ccr |= 0x10000000;
+		} else {
+			regs.ccr &= ~0x10000000;
+		}
+# endif
 #endif
 
 #ifdef HAVE_GETREGS
@@ -1785,6 +1793,7 @@ void tracer_ptrace(struct __test_metadata *_metadata, pid_t tracee,
 	int ret, nr;
 	unsigned long msg;
 	static bool entry;
+	int *syscall_nr = args;
 
 	/* Make sure we got an empty message. */
 	ret = ptrace(PTRACE_GETEVENTMSG, tracee, NULL, &msg);
@@ -1793,10 +1802,15 @@ void tracer_ptrace(struct __test_metadata *_metadata, pid_t tracee,
 
 	/* The only way to tell PTRACE_SYSCALL entry/exit is by counting. */
 	entry = !entry;
-	if (!entry)
+	if (!entry && !syscall_nr)
 		return;
 
-	nr = get_syscall(_metadata, tracee);
+	if (entry)
+		nr = get_syscall(_metadata, tracee);
+	else
+		nr = *syscall_nr;
+	if (syscall_nr)
+		*syscall_nr = nr;
 
 	if (nr == __NR_getpid)
 		change_syscall(_metadata, tracee, __NR_getppid, 0);
@@ -1873,9 +1887,10 @@ TEST_F(TRACE_syscall, ptrace_syscall_redirected)
 
 TEST_F(TRACE_syscall, ptrace_syscall_errno)
 {
+	int syscall_nr = -1;
 	/* Swap SECCOMP_RET_TRACE tracer for PTRACE_SYSCALL tracer. */
 	teardown_trace_fixture(_metadata, self->tracer);
-	self->tracer = setup_trace_fixture(_metadata, tracer_ptrace, NULL,
+	self->tracer = setup_trace_fixture(_metadata, tracer_ptrace, &syscall_nr,
 					   true);
 
 	/* Tracer should skip the open syscall, resulting in ESRCH. */
@@ -1884,9 +1899,10 @@ TEST_F(TRACE_syscall, ptrace_syscall_errno)
 
 TEST_F(TRACE_syscall, ptrace_syscall_faked)
 {
+	int syscall_nr = -1;
 	/* Swap SECCOMP_RET_TRACE tracer for PTRACE_SYSCALL tracer. */
 	teardown_trace_fixture(_metadata, self->tracer);
-	self->tracer = setup_trace_fixture(_metadata, tracer_ptrace, NULL,
+	self->tracer = setup_trace_fixture(_metadata, tracer_ptrace, &syscall_nr,
 					   true);
 
 	/* Tracer should skip the gettid syscall, resulting fake pid. */
