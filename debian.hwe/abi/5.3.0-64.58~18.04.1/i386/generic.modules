@@ -1981,7 +1981,7 @@ intel-lpss
 intel-lpss-acpi
 intel-lpss-pci
 intel-mid_wdt
-intel-rapl-perf
+rapl
 intel-rng
 intel-rst
 intel-smartconnect
