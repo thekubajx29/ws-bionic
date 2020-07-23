@@ -78,7 +78,7 @@ Description: Linux kernel source for version PKGVER with Ubuntu patches
  you do not want this package. Install the appropriate linux-headers
  package instead.
 
-Package: linux-headers-PKGVER-ABINUM
+Package: SRCPKGNAME-headers-PKGVER-ABINUM
 Build-Profiles: <!stage1>
 Architecture: all
 Multi-Arch: foreign
