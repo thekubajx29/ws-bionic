@@ -691,7 +691,6 @@ cdc_subset
 cdns-csi2rx
 cdns-csi2tx
 cdns-pltfrm
-cec-gpio
 ceph
 cfag12864b
 cfag12864bfb
@@ -1982,7 +1981,6 @@ intel-lpss
 intel-lpss-acpi
 intel-lpss-pci
 intel-mid_wdt
-rapl
 intel-rng
 intel-rst
 intel-smartconnect
@@ -3553,6 +3551,7 @@ raid6_pq
 raid_class
 rainshadow-cec
 ramoops
+rapl
 rave-sp
 rave-sp-backlight
 rave-sp-pwrbutton
