@@ -223,7 +223,7 @@ vfs_setxattr(struct dentry *dentry, const char *name, const void *value,
 
 	error = xattr_permission(inode, name, MAY_WRITE);
 	if (error)
-		return error;
+		goto out_free;
 
 	inode_lock(inode);
 	error = security_inode_setxattr(dentry, name, value, size, flags);
@@ -234,6 +234,7 @@ vfs_setxattr(struct dentry *dentry, const char *name, const void *value,
 
 out:
 	inode_unlock(inode);
+out_free:
 	if (value != orig_value)
 		kfree(value);
 
