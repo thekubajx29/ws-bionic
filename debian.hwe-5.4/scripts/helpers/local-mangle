@@ -49,6 +49,9 @@ sed -i "/CONFIG_MFD_AHC1EC0                              policy<{'amd64': 'm'}>/
 sed -i "/CONFIG_SENSORS_AHC1EC0_HWMON                    policy<{'amd64': 'm'}>/d" ${DEBIAN}/config/annotations
 sed -i "/CONFIG_AHC1EC0_WDT                              policy<{'amd64': 'm'}>/d" ${DEBIAN}/config/annotations
 
+# Adjust the revocation key policy for i386
+sed -i "s/CONFIG_SYSTEM_REVOCATION_KEYS                   policy<{'amd64': '\"debian\/canonical-revoked-certs.pem\"', 'arm64': '\"debian\/canonical-revoked-certs.pem\"', 'armhf': '\"debian\/canonical-revoked-certs.pem\"', 'ppc64el': '\"debian\/canonical-revoked-certs.pem\"', 's390x': '\"debian\/canonical-revoked-certs.pem\"'}>/CONFIG_SYSTEM_REVOCATION_KEYS                   policy<{'amd64': '\"debian\/canonical-revoked-certs.pem\"', 'arm64': '\"debian\/canonical-revoked-certs.pem\"', 'armhf': '\"debian\/canonical-revoked-certs.pem\"', 'i386': '\"debian\/canonical-revoked-certs.pem\"', 'ppc64el': '\"debian\/canonical-revoked-certs.pem\"', 's390x': '\"debian\/canonical-revoked-certs.pem\"'}>/" ${DEBIAN}/config/annotations
+
 # Build i386 for hwe kernels
 echo '12,19c
 do_tools_usbip = true
